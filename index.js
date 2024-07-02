@@ -3,7 +3,7 @@ const app=express()
 const handlebars=require('express-handlebars')
 const engine=handlebars.engine
 const bodyParser=require('body-parser')
-
+const Post=require('./models/Post')
 
 //config
 //template engine
