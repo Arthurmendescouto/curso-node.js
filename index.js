@@ -3,7 +3,7 @@ const app=express()
 const handlebars=require('express-handlebars')
 const engine=handlebars.engine
 const bodyParser=require('body-parser')
-const Sequelize=require('sequelize')
+
 
 //config
 //template engine
@@ -12,19 +12,22 @@ app.set('view engine','handlebars')
 
 //bodyparser
 app.use(bodyParser.urlencoded({extended:false}))
-//conexão
 
-const sequelize= new Sequelize('test','root','root',{
-    host:'localhost',
-    dialect:'mysql'
-})
 //Rotas
 app.get('/cad',function(req, res){
     res.render('formulario')
 })
 
 app.post('/add',function(req,res){
-    res.send("Texto: "+req.body.titulo+" Conteudo: "+req.body.conteudo)
+    Post.create({
+        titulo: req.body.titulo,
+        conteudo: req.body.conteudo
+    }).then(function(){
+        res.send('POST criado com sucesso!')
+    }).catch(function(erro){
+            res.send("Houve um erro: " + erro)
+        })
+    
 })
 
 app.listen(8081,function(){
