@@ -14,6 +14,12 @@ app.set('view engine','handlebars')
 app.use(bodyParser.urlencoded({extended:false}))
 
 //Rotas
+app.get('/',function(req,res){
+    Post.all().then(function(posts){
+        res.render('home',{posts: posts})
+    })
+})
+
 app.get('/cad',function(req, res){
     res.render('formulario')
 })
@@ -23,7 +29,7 @@ app.post('/add',function(req,res){
         titulo: req.body.titulo,
         conteudo: req.body.conteudo
     }).then(function(){
-        res.send('POST criado com sucesso!')
+        res.redirect('/')
     }).catch(function(erro){
             res.send("Houve um erro: " + erro)
         })

@@ -8,4 +8,7 @@ const Post=db.sequelize.define('postagens',{
         type: db.Sequelize.TEXT
     }
 })
+Post.all=function(){
+    return Post.findAll()
+}
 module.exports=Post
