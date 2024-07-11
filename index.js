@@ -1,21 +1,27 @@
 const express=require('express')
 const app=express()
 const handlebars=require('express-handlebars')
-const engine=handlebars.engine
 const bodyParser=require('body-parser')
 const Post=require('./models/Post')
 
+
 //config
 //template engine
-app.engine('handlebars',engine({defaultLayout:'main'}))
-app.set('view engine','handlebars')
+app.engine('handlebars', handlebars.engine({
+    defaultLayout: 'main',
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true
+    }
+}));
+app.set('view engine', 'handlebars');
 
 //bodyparser
 app.use(bodyParser.urlencoded({extended:false}))
 
 //Rotas
 app.get('/',function(req,res){
-    Post.all().then(function(posts){
+    Post.findAll({order: [['id','DESC']]}).then(function(posts){
         res.render('home',{posts: posts})
     })
 })
@@ -37,5 +43,5 @@ app.post('/add',function(req,res){
 })
 
 app.listen(8081,function(){
-    console.log('Servidor Rodando na url http:localhost:8081')
+    console.log('Servidor Rodando na url http:localhost:8081') 
 })
