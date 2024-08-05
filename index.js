@@ -42,6 +42,22 @@ app.post('/add',function(req,res){
     
 })
 
+
+    app.get('/deletar/:id', async function(req, res) {
+        try {
+            const id = parseInt(req.params.id, 10); // Converte o ID para um número
+            const result = await Post.destroy({ where: { id } });
+    
+            if (result) {
+                res.send("Postagem deletada com sucesso!");
+            } else {
+                res.send("Postagem não encontrada.");
+            }
+        } catch (erro) {
+            res.send("Houve um erro: " + erro);
+        }
+    });
+
 app.listen(8081,function(){
     console.log('Servidor Rodando na url http:localhost:8081') 
 })
